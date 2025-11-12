@@ -85,7 +85,7 @@ body:not([data-twc-started]) {
 
 body[data-twc-started] {
 
-    main div:not([aria-label="Timeline: Conversation"]) > div > [data-testid='cellInnerDiv']:not(:has([data-twc-used])) {
+    main div:not([aria-label="Timeline: Conversation"]) > div > [data-testid='cellInnerDiv']:not(:has([data-twc-used])):not(:has(>div>div>div[role=progressbar])) {
         opacity: 0;
         pointer-events: none;
     }
@@ -118,7 +118,7 @@ body[data-twc-started] {
         rotate: var(--rot);
         border: 2px solid light-dark(#EEE8, #123);
         border-radius: 32px;
-        @supports (corner-shape) {
+        @supports (corner-shape: superellipse(1.5)) {
             border-radius: 42px;
             corner-shape: superellipse(1.5);
         }
@@ -165,12 +165,12 @@ body[data-twc-started] {
         border: none;
     }
     
-    [aria-label="Home timeline"]>*:not(:has([data-testid=tweet])), header[role=banner], [data-testid=sidebarColumn], [data-testid=DMDrawer], [data-testid=GrokDrawer] {
+    [aria-label="Home timeline"]>*:not(:has([data-testid=tweet])):not(:first-child), header[role=banner], [data-testid=sidebarColumn], [data-testid=DMDrawer], [data-testid=GrokDrawer] {
         opacity: 0;
         pointer-events: none;
     }
     
-    [aria-label="Home timeline"]>:first-child {
+    [aria-label="Home timeline"]:not(:has(div[aria-label="Timeline: Conversation"])) > :first-child {
         pointer-events: all;
         opacity: 1;
         position: fixed;
@@ -184,6 +184,13 @@ body[data-twc-started] {
         [aria-selected="true"]>*>*>:not(:first-child) {
             opacity: 0;
         }
+    }
+
+    [data-testid="cellInnerDiv"]:has(>div>div>div[role=progressbar]) {
+        transform: none!important;
+        position: fixed!important;
+        bottom: 0;
+        left: 0;
     }
 
     .twc-start {
