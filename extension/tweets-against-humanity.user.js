@@ -82,7 +82,7 @@ body[data-twc-started] {
         --rot: calc((var(--card-offset) - 0.5) * 2 * 5deg);
         --yRot: calc(max(50px * abs(sin(var(--rot) * 10)), 18px) / 1.5);
         position: absolute;
-        background: #234;
+        background: light-dark(#FFF, #234);
         top: 100dvh;
         left: 50dvw;
         width: 360px;
@@ -90,23 +90,22 @@ body[data-twc-started] {
         width: 400px;
         translate: calc(-50% + (var(--card-offset) - 0.5) * 2 * var(--max-offset)) calc(-100px + var(--yRot));
         rotate: var(--rot);
-        border: 2px solid #123;
+        border: 2px solid light-dark(#EEE8, #123);
         border-radius: 42px;
         corner-shape: superellipse(1.5);
-        box-shadow: 2px 2px 8px #0004;
+        box-shadow: 2px 2px 8px light-dark(#8884, #0004);
         padding-right: 12px;
         padding-left: 12px;
     
         transition: translate 0.4s, rotate 0.4s, background 0.4s;
         &:hover, &:has(:hover) {
-            background: #345;
+            background: light-dark(#EEE, #345);
             translate: calc(-50% + (var(--card-offset) - 0.5) * 2 * var(--max-offset)) max(calc(-100% - 32px), -256px);
             --rot: calc((var(--card-offset) - 0.5) * 2 * 2deg);
         }
     
         &[data-twc-pick] {
             --rot: 0deg;
-            /*width: 480px;*/
             translate: -50% calc(-50dvh - 50% - 40px);
         }
     
@@ -120,7 +119,7 @@ body[data-twc-started] {
         }
     
         [role="link"]:has([data-testid="Tweet-User-Avatar"]) {
-            box-shadow: 4px 4px 16px inset #0128;
+            box-shadow: 4px 4px 16px inset light-dark(#0124, #0128);
             outline: none;
         }
     
