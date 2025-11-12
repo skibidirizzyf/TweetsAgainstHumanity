@@ -11,7 +11,13 @@
 // @grant       none
 // ==/UserScript==
 
-let TWC_CARD_COUNT = 5;
+const TWC_VERSION = "1.0";
+
+const TWC_SETTINGS = {
+    version: TWC_VERSION,
+    cardCount: 5,
+    autoStart: false,
+};
 
 // based on https://stackoverflow.com/a/61511955/2251833
 async function waitForQuery(selector) {
@@ -35,6 +41,20 @@ async function waitForQuery(selector) {
 }
 
 const twcCss = `
+.twc-txt-btn {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: none;
+    border: none;
+    color: light-dark(#536471, #8B98A5);
+    transition: color 0.2s;
+    &[open], &:hover {
+        color: light-dark(#000, #FFF);
+    }
+    & > summary {
+        list-style: none;
+    }
+}
+
 .twc-start {
     width: 64px;
     height: 64px;
@@ -55,6 +75,12 @@ const twcCss = `
 
 html:has(body[data-twc-started]) {
     scrollbar-width: none;
+}
+
+body:not([data-twc-started]) {
+    .twc-txt-btn {
+        display: none;
+    }
 }
 
 body[data-twc-started] {
@@ -78,8 +104,8 @@ body[data-twc-started] {
     
     
     [data-twc-card] {
-        --max-offset: min(512px, calc(50vw - 256px));
-        --rot: calc((var(--card-offset) - 0.5) * 2 * 5deg);
+        --max-offset: min(min(512px, 512px / 4.5 * var(--card-count)), calc(50vw - 256px));
+        --rot: calc((var(--card-offset) - 0.5) * 2 * min(5deg, 5deg / 4 * var(--card-count)));
         --yRot: calc(max(50px * abs(sin(var(--rot) * 10)), 18px) / 1.5);
         position: absolute;
         background: light-dark(#FFF, #234);
@@ -91,8 +117,11 @@ body[data-twc-started] {
         translate: calc(-50% + (var(--card-offset) - 0.5) * 2 * var(--max-offset)) calc(-100px + var(--yRot));
         rotate: var(--rot);
         border: 2px solid light-dark(#EEE8, #123);
-        border-radius: 42px;
-        corner-shape: superellipse(1.5);
+        border-radius: 32px;
+        @supports (corner-shape) {
+            border-radius: 42px;
+            corner-shape: superellipse(1.5);
+        }
         box-shadow: 2px 2px 8px light-dark(#8884, #0004);
         padding-right: 12px;
         padding-left: 12px;
@@ -106,7 +135,7 @@ body[data-twc-started] {
     
         &[data-twc-pick] {
             --rot: 0deg;
-            translate: -50% calc(-50dvh - 50% - 40px);
+            translate: -50% calc(-50dvh - 50% - 40px + 25px);
         }
     
         &[data-twc-gone] {
@@ -188,7 +217,7 @@ function cardNextTweets(count) {
     const nextTweets = getNextTweets(count);
     nextTweets.forEach((e,i) => {
         e.dataset.twcCard = true;
-        e.setAttribute("style", (e.getAttribute("style") ?? "") + `; --card-offset: ${i/(count-1)}`);
+        e.setAttribute("style", (e.getAttribute("style") ?? "") + `; --card-offset: ${i/(count-1)}; --card-count: ${count}`);
         e.addEventListener("click", (ev)=>{ev.preventDefault();pickCard(e)}, {capture:true,once:true});
     });
 }
@@ -201,26 +230,84 @@ function pickCard(cardEl) {
     const otherCards = [...document.querySelectorAll("[data-twc-card]:not([data-twc-gone])")].filter(e=>e!==cardEl);
     otherCards.forEach(e=>e.dataset.twcGone = true);
     cardEl.dataset.twcPick = true;
-    cardNextTweets(TWC_CARD_COUNT);
+    cardNextTweets(TWC_SETTINGS.cardCount);
 }
+
+let TWC_GAME_INTERVAL = -1;
 
 async function startGame() {
     document.body.dataset.twcStarted = true;
     await waitForQuery(TWC_NEXT_TWEET_SELECTOR);
-    cardNextTweets(TWC_CARD_COUNT);
+    cardNextTweets(TWC_SETTINGS.cardCount);
     // todo: make this better
-    setInterval(() => {
+    if (TWC_GAME_INTERVAL != -1)
+        clearInterval(TWC_GAME_INTERVAL);
+    TWC_GAME_INTERVAL = setInterval(() => {
         if (!document.querySelector("[data-twc-card]:not([data-twc-gone]):not([data-twc-pick])"))
-            cardNextTweets(TWC_CARD_COUNT);
+            cardNextTweets(TWC_SETTINGS.cardCount);
     }, 1000);
 }
 
-function setupTwc() {
-    addTwcButton();
-    setStyle(twcCss);
+async function stopGame() {
+    if (TWC_GAME_INTERVAL != -1)
+        clearInterval(TWC_GAME_INTERVAL);
+    delete document.body.dataset.twcStarted;
 }
 
-function addTwcButton() {
+function loadTwcSettings() {
+    const loadedSettings = JSON.parse(localStorage.getItem("twc-settings") || "{}");
+    Object.entries(TWC_SETTINGS).forEach(([k,v]) => {
+        if (Object.hasOwn(loadedSettings, k))
+            TWC_SETTINGS[k] = loadedSettings[k];
+    });
+}
+
+function saveTwcSettings() {
+    TWC_SETTINGS.version = TWC_VERSION;
+    localStorage.setItem("twc-settings", JSON.stringify(TWC_SETTINGS));
+}
+
+function setupTwc() {
+    loadTwcSettings();
+    addTwcControls();
+    setStyle(twcCss);
+    if (TWC_SETTINGS.autoStart)
+        startGame();
+}
+
+function createSetting(name, label, type) {
+    const div = document.createElement("div");
+    div.classList.add("twc-setting");
+
+    const labelEl = document.createElement("label");
+    labelEl.innerText = `${label}: `;
+
+    const input = document.createElement("input");
+    input.name = name;
+    input.type = type;
+
+    if (type == "checkbox") {
+        input.checked = TWC_SETTINGS[name];
+    } else {
+        input.value = TWC_SETTINGS[name];
+    }
+
+    input.oninput = () => {
+        if (type == "checkbox") {
+            TWC_SETTINGS[name] = input.checked;
+        } else {
+            TWC_SETTINGS[name] = parseInt(input.value);
+        }
+        saveTwcSettings();
+    }
+    
+    labelEl.appendChild(input);
+    div.appendChild(labelEl);
+
+    return [div, input];
+}
+
+function addTwcControls() {
     const twcButton = document.createElement("button");
     twcButton.classList.add("twc-start");
     if (chrome?.runtime?.getURL) {
@@ -228,10 +315,44 @@ function addTwcButton() {
     } else {
         twcButton.innerText = "Tweets Against Humanity";
     }
-    twcButton.onclick = () => startGame(1);
+    twcButton.onclick = startGame;
     document.body.appendChild(twcButton);
+
+    const twcStop = document.createElement("button");
+    twcStop.classList.add("twc-txt-btn");
+    twcStop.innerText = "X";
+    twcStop.style.position = "fixed";
+    twcStop.style.top = "16px";
+    twcStop.style.right = "16px";
+    twcStop.style.cursor = "pointer";
+    twcStop.onclick = stopGame;
+    document.body.appendChild(twcStop);
+
+    const twcSettings = document.createElement("details");
+    const twcSettingsSum = document.createElement("summary");
+    twcSettingsSum.innerText = "Settings";
+    twcSettingsSum.style.cursor = "pointer";
+    twcSettings.appendChild(twcSettingsSum);
+    twcSettings.classList.add("twc-txt-btn");
+    twcSettings.style.position = "fixed";
+    twcSettings.style.top = "16px";
+    twcSettings.style.left = "16px";
+
+    const [cardCountDiv, cardCountInput] = createSetting("cardCount", "Card count", "number");
+    cardCountInput.min = 3;
+    cardCountInput.max = 7;
+    twcSettings.appendChild(cardCountDiv);
+
+    const [autoStartDiv, autoStartInput] = createSetting("autoStart", "Autostart", "checkbox");
+    twcSettings.appendChild(autoStartDiv);
+
+    const creditP = document.createElement("p");
+    creditP.innerHTML = `
+<a href="https://github.com/rebane2001/TweetsAgainstHumanity" target="_blank">Tweets Against Humanity</a> v${TWC_VERSION}<br>
+by <a href="https://lyra.horse" target="_blank">rebane2001</a>`;
+    twcSettings.appendChild(creditP);
+
+    document.body.appendChild(twcSettings);
 }
 
 setupTwc();
-//waitForQuery(TWC_SIDEBAR_SELECTOR).then(setupTwc);
-//waitForQuery(TWC_NEXT_TWEET_SELECTOR).then(startGame);
