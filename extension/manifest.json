@@ -11,6 +11,13 @@
     "128": "images/icon-128.png"
   },
 
+  "web_accessible_resources": [
+    {
+      "resources": [ "images/icon-128.png" ],
+      "matches": [ "https://*/*" ]
+    }
+  ],
+
   "content_scripts": [
     {
       "js": ["tweets-against-humanity.user.js"],
