@@ -355,7 +355,7 @@ function addTwcControls() {
 
     const creditP = document.createElement("p");
     creditP.innerHTML = `
-<a href="https://github.com/rebane2001/TweetsAgainstHumanity" target="_blank">Tweets Against Humanity</a> v${TWC_VERSION}<br>
+<a href="https://github.com/rebane2001/TweetsAgainstHumanity" target="_blank">Tweets Against Humanity</a> v${TWC_VERSION.replace(/[^0-9.a-z]/g,'')}<br>
 by <a href="https://lyra.horse" target="_blank">rebane2001</a>`;
     twcSettings.appendChild(creditP);
 
