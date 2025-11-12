@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Tweets Against Humanity",
   "description": "Turn Twitter into a deck-building rougelike",
-  "version": "1.0",
+  "homepage_url": "https://github.com/rebane2001/TweetsAgainstHumanity",
+  "version": "1.0.1",
 
   "icons": {
     "16": "images/icon-16.png",
@@ -30,7 +31,7 @@
 
   "browser_specific_settings": {
     "gecko": {
-      "id": "@extension-without-data-collection",
+      "id": "TweetsAgainstHumanity@lyra.horse",
       "data_collection_permissions": {
         "required": ["none"]
       }

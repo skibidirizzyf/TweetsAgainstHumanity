@@ -4,14 +4,14 @@
 // @homepage    https://github.com/rebane2001/TweetsAgainstHumanity/
 // @author      rebane2001
 // @namespace   rebane2001
-// @version     1.0
+// @version     1.0.1
 // @noframes
 // @match       https://x.com/*
 // @match       https://twitter.com/*
 // @grant       none
 // ==/UserScript==
 
-const TWC_VERSION = "1.0";
+const TWC_VERSION = "1.0.1";
 
 const TWC_SETTINGS = {
     version: TWC_VERSION,
