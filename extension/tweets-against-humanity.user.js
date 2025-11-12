@@ -1,4 +1,17 @@
-twitterCardCount = 5;
+// ==UserScript==
+// @name        Tweets Against Humanity
+// @description Turn Twitter into a deck-building rougelike
+// @homepage    https://github.com/rebane2001/TweetsAgainstHumanity/
+// @author      rebane2001
+// @namespace   rebane2001
+// @version     1.0
+// @noframes
+// @match       https://x.com/*
+// @match       https://twitter.com/*
+// @grant       none
+// ==/UserScript==
+
+let TWC_CARD_COUNT = 5;
 
 // based on https://stackoverflow.com/a/61511955/2251833
 async function waitForQuery(selector) {
@@ -22,8 +35,6 @@ async function waitForQuery(selector) {
 }
 
 const twcCss = `
-
-
 .twc-start {
     width: 64px;
     height: 64px;
@@ -34,6 +45,8 @@ const twcCss = `
     cursor: pointer;
     transition: translate 0.2s;
     translate: 0 4px;
+    background: linear-gradient(45deg, #1d9bf0, #000);
+    color: #FFF;
     &:hover {
         translate: 0 0;
         filter: brightness(1.1);
@@ -46,7 +59,7 @@ html:has(body[data-twc-started]) {
 
 body[data-twc-started] {
 
-    [data-testid='cellInnerDiv']:not(:has([data-twc-used])) {
+    main div:not([aria-label="Timeline: Conversation"]) > div > [data-testid='cellInnerDiv']:not(:has([data-twc-used])) {
         opacity: 0;
         pointer-events: none;
     }
@@ -66,6 +79,8 @@ body[data-twc-started] {
     
     [data-twc-card] {
         --max-offset: min(512px, calc(50vw - 256px));
+        --rot: calc((var(--card-offset) - 0.5) * 2 * 5deg);
+        --yRot: calc(max(50px * abs(sin(var(--rot) * 10)), 18px) / 1.5);
         position: absolute;
         background: #234;
         top: 100dvh;
@@ -73,8 +88,8 @@ body[data-twc-started] {
         width: 360px;
         width: 480px;
         width: 400px;
-        translate: calc(-50% + (var(--card-offset) - 0.5) * 2 * var(--max-offset)) -80px;
-        rotate: calc((var(--card-offset) - 0.5) * 2 * 5deg);
+        translate: calc(-50% + (var(--card-offset) - 0.5) * 2 * var(--max-offset)) calc(-100px + var(--yRot));
+        rotate: var(--rot);
         border: 2px solid #123;
         border-radius: 42px;
         corner-shape: superellipse(1.5);
@@ -86,11 +101,11 @@ body[data-twc-started] {
         &:hover, &:has(:hover) {
             background: #345;
             translate: calc(-50% + (var(--card-offset) - 0.5) * 2 * var(--max-offset)) max(calc(-100% - 32px), -256px);
-            rotate: calc((var(--card-offset) - 0.5) * 2 * 2deg);
+            --rot: calc((var(--card-offset) - 0.5) * 2 * 2deg);
         }
     
         &[data-twc-pick] {
-            rotate: 0deg;
+            --rot: 0deg;
             /*width: 480px;*/
             translate: -50% calc(-50dvh - 50% - 40px);
         }
@@ -151,7 +166,7 @@ body[data-twc-started] {
 
 `;
 
-const TWC_NEXT_TWEET_SELECTOR = "[data-testid='cellInnerDiv']:not(:has(>.HiddenTweet)) [data-testid='tweet']:not([data-twc-used])";
+const TWC_NEXT_TWEET_SELECTOR = "div:not([aria-label='Timeline: Conversation']) > div > [data-testid='cellInnerDiv']:not(:has(>.HiddenTweet)) [data-testid='tweet']:not([data-twc-used])";
 const TWC_SIDEBAR_SELECTOR = "nav[aria-label='Primary']";
 
 function getNextTweets(count) {
@@ -187,13 +202,18 @@ function pickCard(cardEl) {
     const otherCards = [...document.querySelectorAll("[data-twc-card]:not([data-twc-gone])")].filter(e=>e!==cardEl);
     otherCards.forEach(e=>e.dataset.twcGone = true);
     cardEl.dataset.twcPick = true;
-    cardNextTweets(twitterCardCount);
+    cardNextTweets(TWC_CARD_COUNT);
 }
 
 async function startGame() {
     document.body.dataset.twcStarted = true;
     await waitForQuery(TWC_NEXT_TWEET_SELECTOR);
-    cardNextTweets(twitterCardCount);
+    cardNextTweets(TWC_CARD_COUNT);
+    // todo: make this better
+    setInterval(() => {
+        if (!document.querySelector("[data-twc-card]:not([data-twc-gone]):not([data-twc-pick])"))
+            cardNextTweets(TWC_CARD_COUNT);
+    }, 1000);
 }
 
 function setupTwc() {
@@ -204,7 +224,11 @@ function setupTwc() {
 function addTwcButton() {
     const twcButton = document.createElement("button");
     twcButton.classList.add("twc-start");
-    twcButton.style.background = `0 / cover url(${chrome.runtime.getURL("/images/icon-128.png")})`;
+    if (chrome?.runtime?.getURL) {
+        twcButton.style.background = `0 / cover url(${chrome.runtime.getURL("/images/icon-128.png")})`;
+    } else {
+        twcButton.innerText = "Tweets Against Humanity";
+    }
     twcButton.onclick = () => startGame(1);
     document.body.appendChild(twcButton);
 }
