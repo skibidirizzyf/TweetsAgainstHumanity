@@ -12,4 +12,4 @@ You can either use the extension or userscript. Extension is work in progress so
 
 TAH is licensed under the [GNU General Public License v3.0](LICENSE).
 
-TAH is not affiliated with Twitter, Cards Against Humanity, or Balatro (but feel free to message me if you'd like to be).
+TAH is not affiliated with Twitter, Cards Against Humanity, or Balatro (but feel free to reach out if you'd like it to be).
