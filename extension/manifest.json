@@ -26,7 +26,7 @@
         "https://twitter.com/*"
       ]
     }
-  ]
+  ],
 
   "browser_specific_settings": {
     "gecko": {
@@ -35,5 +35,5 @@
         "required": ["none"]
       }
     }
-  },
+  }
 }
