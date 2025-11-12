@@ -17,8 +17,7 @@ You can install this as either an extension or a userscript.
 ### Extension
 
 This extension has not been approved for stores yet, so you must download and install it manually:
-- [Download for Chrome (and similar)](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.crx) (right-click -> save as)
-- [Download for Firefox](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.1.zip)
+- [Download for Chrome, Firefox, and other such browsers](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.1.zip)
 
 ### Userscript
 
