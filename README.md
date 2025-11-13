@@ -16,8 +16,11 @@ You can install this as either an extension or a userscript.
 
 ### Extension
 
-This extension has not been approved for stores yet, so you must download and install it manually:
-- [Download for Chrome, Firefox, and other such browsers](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.1.zip)
+Get the extension from an extension store:
+#### [Chrome (and similar)](https://chromewebstore.google.com/detail/tweets-against-humanity/iffafbhcfbghbcbomboplepdbphdkjbi)
+
+You can also download and install it manually:
+- [Universal download for Chrome, Firefox, and other browsers](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.1.zip)
 
 ### Userscript
 
