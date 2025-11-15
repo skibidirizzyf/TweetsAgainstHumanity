@@ -1,6 +1,6 @@
 # <img src="extension/images/icon-128.png" width="64px"> Tweets Against Humanity
 
-## Download for [Chrome](https://chromewebstore.google.com/detail/tweets-against-humanity/iffafbhcfbghbcbomboplepdbphdkjbi)
+## Download for [Chrome](https://chromewebstore.google.com/detail/tweets-against-humanity/iffafbhcfbghbcbomboplepdbphdkjbi) or [Firefox](https://addons.mozilla.org/firefox/addon/tweets-against-humanity/)
 
 Extension/Userscript to turn Twitter into a deck-building rougelike.
 
@@ -20,6 +20,7 @@ You can install this as either an extension or a userscript.
 
 Get the extension from an extension store:
 - [Chrome (and similar)](https://chromewebstore.google.com/detail/tweets-against-humanity/iffafbhcfbghbcbomboplepdbphdkjbi)
+- [Firefox](https://addons.mozilla.org/firefox/addon/tweets-against-humanity/)
 
 You can also download and install it manually:
 - [Universal download for Chrome, Firefox, and other browsers](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.1.zip)
