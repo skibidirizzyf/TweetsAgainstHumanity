@@ -4,14 +4,14 @@
 // @homepage    https://github.com/rebane2001/TweetsAgainstHumanity/
 // @author      rebane2001
 // @namespace   rebane2001
-// @version     1.0.1
+// @version     1.0.2
 // @noframes
 // @match       https://x.com/*
 // @match       https://twitter.com/*
 // @grant       none
 // ==/UserScript==
 
-const TWC_VERSION = "1.0.1";
+const TWC_VERSION = "1.0.2";
 
 const TWC_SETTINGS = {
     version: TWC_VERSION,
@@ -342,7 +342,7 @@ function createSetting(name, label, type) {
 function addTwcControls() {
     const twcButton = document.createElement("button");
     twcButton.classList.add("twc-start");
-    if (chrome?.runtime?.getURL) {
+    if ("chrome" in window && chrome?.runtime?.getURL) {
         twcButton.style.background = `0 / cover url(${chrome.runtime.getURL("/images/icon-128.png")})`;
     } else {
         twcButton.innerText = "Tweets Against Humanity";
