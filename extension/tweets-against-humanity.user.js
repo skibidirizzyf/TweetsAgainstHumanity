@@ -40,7 +40,12 @@ async function waitForQuery(selector) {
     });
 }
 
-const twcCss = `
+
+
+let TWC_NEXT_TWEET_SELECTOR = "div:not([aria-label='Timeline: Conversation']) > div > [data-testid='cellInnerDiv']:not(:has(>.HiddenTweet)) [data-testid='tweet']:not([data-twc-used])";
+const TWC_SIDEBAR_SELECTOR = "nav[aria-label='Primary']";
+
+let twcCss = `
 .twc-txt-btn {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: none;
@@ -198,11 +203,30 @@ body[data-twc-started] {
     }
 
 }
-
 `;
 
-const TWC_NEXT_TWEET_SELECTOR = "div:not([aria-label='Timeline: Conversation']) > div > [data-testid='cellInnerDiv']:not(:has(>.HiddenTweet)) [data-testid='tweet']:not([data-twc-used])";
-const TWC_SIDEBAR_SELECTOR = "nav[aria-label='Primary']";
+const TWC_LANG_STRINGS = {
+    "Timeline: Conversation": "Timeline: Conversation",
+    "Home timeline": "Home timeline",
+}
+
+/*
+
+Does not work atm due to isolated extension world.
+
+function extractLangStrings() {
+    const langFun = Object.values(window.webpackChunk_twitter_responsive_web.find(e=>e[0][0].startsWith("i18n") && !e[0][0].startsWith("i18n/emoji"))[1])[0].toString();
+    const str_timeline = langFun.split('a("e5b0063d",(function(e){return"')[1].split('"+e.title')[0];
+    const str_conversation = langFun.split('a("d35d74e4","')[1].split('")')[0];
+    TWC_LANG_STRINGS["Timeline: Conversation"] = `${str_timeline}${str_conversation}`;
+    TWC_LANG_STRINGS["Home timeline"] = langFun.split('a("c67e3fc2","')[1].split('")')[0];
+
+    for (let [k,v] in Object.entries(TWC_LANG_STRINGS)) {
+        TWC_NEXT_TWEET_SELECTOR = TWC_NEXT_TWEET_SELECTOR.replaceAll(k, v);
+        twcCss = twcCss.replaceAll(k, v);
+    }
+}
+*/
 
 function getNextTweets(count) {
     const nextTweets = [...document.querySelectorAll(TWC_NEXT_TWEET_SELECTOR)].slice(0, count);
@@ -274,9 +298,10 @@ function saveTwcSettings() {
     localStorage.setItem("twc-settings", JSON.stringify(TWC_SETTINGS));
 }
 
-function setupTwc() {
+async function setupTwc() {
     loadTwcSettings();
     addTwcControls();
+    // extractLangStrings();
     setStyle(twcCss);
     if (TWC_SETTINGS.autoStart)
         startGame();
